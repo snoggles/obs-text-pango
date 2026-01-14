@@ -31,7 +31,7 @@ jobs:
           update: true
           install: >-
             git
-            pkg-config
+            mingw-w64-x86_64-pkg-config
             mingw-w64-x86_64-pango
             mingw-w64-x86_64-cairo
             mingw-w64-x86_64-glib2
@@ -68,6 +68,9 @@ jobs:
           # Use MINGW64 prefix for dependencies
           DEPS_DIR=$(cygpath --mixed "/mingw64")
           OBS_DIR=$(cygpath --mixed "${{ github.workspace }}/obs-studio")
+
+          # Explicitly set PKG_CONFIG_PATH for MinGW-w64
+          export PKG_CONFIG_PATH="/mingw64/lib/pkgconfig:/mingw64/share/pkgconfig"
 
           cmake .. -G "Ninja" \
             -DCMAKE_BUILD_TYPE=Release \
