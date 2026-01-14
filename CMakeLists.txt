@@ -78,6 +78,17 @@ set(win32_static_LIBRARIES_NAMES
 	expat
 	usp10)
 
+find_package(Freetype REQUIRED)
+# Force FreeType to shared import library if available
+find_library(FREETYPE_LIBRARY_SHARED
+	NAMES libfreetype.dll.a freetype.dll libfreetype.dll
+	HINTS ${CMAKE_PREFIX_PATH}
+	PATH_SUFFIXES lib bin
+)
+if(FREETYPE_LIBRARY_SHARED)
+	set(FREETYPE_LIBRARIES ${FREETYPE_LIBRARY_SHARED} CACHE INTERNAL "" FORCE)
+endif()
+
 if(WIN32)
 	foreach(lib_name ${win32_static_LIBRARIES_NAMES})
 		# Skip resolving usp10 as it's a system library
@@ -87,7 +98,7 @@ if(WIN32)
 		endif()
 
 		find_library(LIB_PATH_${lib_name}
-			NAMES ${lib_name}.dll lib${lib_name}.dll ${lib_name} lib${lib_name}
+			NAMES lib${lib_name}.dll.a ${lib_name}.dll lib${lib_name}.dll ${lib_name} lib${lib_name}
 			HINTS ${CMAKE_PREFIX_PATH}
 			PATH_SUFFIXES lib bin
 		)

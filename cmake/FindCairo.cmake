@@ -49,20 +49,17 @@ check_symbol_exists(CAIRO_HAS_PDF_SURFACE cairo.h CAIRO_PDF_FOUND)
 check_symbol_exists(CAIRO_HAS_SVG_SURFACE cairo.h CAIRO_SVG_FOUND)
 
 FIND_LIBRARY(CAIRO_LIBRARY
-    NAMES cairo
+    NAMES libcairo.dll.a libcairo.dll cairo.dll libcairo.a cairo libcairo
     HINTS ${PC_CAIRO_LIBDIR}
           ${PC_CAIRO_LIBRARY_DIRS}
+          ${CMAKE_PREFIX_PATH}
+    PATH_SUFFIXES lib bin
 )
 
-FIND_LIBRARY(CAIRO_STATIC_LIBRARIES
-    NAMES cairo-static
-    HINTS ${PC_CAIRO_LIBDIR}
-          ${PC_CAIRO_LIBRARY_DIRS}
-)
-if(NOT CAIRO_LIBRARY AND CAIRO_STATIC_LIBRARIES)
-    set(CAIRO_LIBRARY ${CAIRO_STATIC_LIBRARIES})
-    set(CAIRO_C_FLAGS "-DCAIRO_WIN32_STATIC_BUILD")
-endif()
+
+# Remove static-specific flags to ensure we use dynamic linkage for MSVC compatibility
+set(CAIRO_C_FLAGS "")
+
 
 IF (CAIRO_INCLUDE_DIR)
     IF (EXISTS "${CAIRO_INCLUDE_DIR}/cairo-version.h")
