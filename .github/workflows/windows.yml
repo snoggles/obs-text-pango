@@ -59,6 +59,26 @@ jobs:
         run: |
           git clone --depth 1 --branch release/32.0 https://github.com/obsproject/obs-studio.git obs-studio
 
+      - name: Cache libobs
+        id: cache-libobs
+        uses: actions/cache@v4
+        with:
+          path: obs-install
+          key: ${{ runner.os }}-libobs-${{ hashFiles('obs-studio/.git/HEAD') }}
+
+      - name: Build libobs
+        if: steps.cache-libobs.outputs.cache-hit != 'true'
+        run: |
+          cmake -S obs-studio -B obs-studio/build -G "Visual Studio 17 2022" -A x64 `
+            -DENABLE_UI=OFF `
+            -DENABLE_SCRIPTING=OFF `
+            -DENABLE_PLUGINS=OFF `
+            -DENABLE_FRONTEND_API=OFF `
+            -DENABLE_BROWSER=OFF `
+            -DCMAKE_INSTALL_PREFIX=obs-install
+          cmake --build obs-studio/build --target libobs --config Release --parallel
+          cmake --install obs-studio/build --config Release --component Development
+
       - name: Build Plugin
         shell: msys2 {0}
         run: |
@@ -67,7 +87,7 @@ jobs:
 
           # Use MINGW64 prefix for dependencies
           DEPS_DIR=$(cygpath --mixed "/mingw64")
-          OBS_DIR=$(cygpath --mixed "${{ github.workspace }}/obs-studio")
+          OBS_DIR=$(cygpath --mixed "${{ github.workspace }}/obs-install")
 
           # Explicitly set PKG_CONFIG_PATH for MinGW-w64
           export PKG_CONFIG_PATH="/mingw64/lib/pkgconfig:/mingw64/share/pkgconfig"
