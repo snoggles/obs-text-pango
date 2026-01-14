@@ -16,6 +16,7 @@ FIND_LIBRARY(PANGOFT2_LIBRARY
         ${PC_PANGOFT2_LIBDIR}
     PATH_SUFFIXES
         pango
+        pango-1.0
 )
 
 include(FindPackageHandleStandardArgs)

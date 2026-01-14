@@ -14,12 +14,13 @@ find_path(PANGOWIN32_INCLUDE_DIR
 
 find_library(PANGOWIN32_LIBRARY
     NAMES
-        pangowin32 libpangowin32
+        pangowin32 libpangowin32 pangowin32-1.0
     HINTS
         ${PC_PANGOWIN32_LIBDIR}
         ${PC_PANGOWIN32_LIBRARIES}
     PATH_SUFFIXES
         pango
+        pango-1.0
 )
 list(APPEND PANGOWIN32_LIBRARY)
 
