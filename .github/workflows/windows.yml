@@ -71,12 +71,12 @@ jobs:
         run: |
           cmake -S obs-studio -B obs-studio/build -G "Visual Studio 17 2022" -A x64 `
             -DENABLE_UI=OFF `
+            -DENABLE_FRONTEND=OFF `
             -DENABLE_SCRIPTING=OFF `
             -DENABLE_PLUGINS=OFF `
-            -DENABLE_FRONTEND_API=OFF `
             -DENABLE_BROWSER=OFF `
             -DCMAKE_INSTALL_PREFIX=obs-install
-          cmake --build obs-studio/build --target libobs --config Release --parallel
+          cmake --build obs-studio/build --target libobs --target obs-frontend-api --config Release --parallel
           cmake --install obs-studio/build --config Release --component Development
 
       - name: Build Plugin
