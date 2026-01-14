@@ -14,9 +14,9 @@ FIND_LIBRARY(PANGOFT2_LIBRARY
         pangoft2 libpangoft2 pangoft2-1.0
     HINTS
         ${PC_PANGOFT2_LIBDIR}
+        ${CMAKE_PREFIX_PATH}
     PATH_SUFFIXES
-        pango
-        pango-1.0
+        lib bin pango pango-1.0
 )
 
 include(FindPackageHandleStandardArgs)

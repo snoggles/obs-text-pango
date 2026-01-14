@@ -18,9 +18,9 @@ find_library(PANGOWIN32_LIBRARY
     HINTS
         ${PC_PANGOWIN32_LIBDIR}
         ${PC_PANGOWIN32_LIBRARIES}
+        ${CMAKE_PREFIX_PATH}
     PATH_SUFFIXES
-        pango
-        pango-1.0
+        lib bin pango pango-1.0
 )
 list(APPEND PANGOWIN32_LIBRARY)
 

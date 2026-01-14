@@ -14,9 +14,9 @@ FIND_LIBRARY(PANGOCAIRO_LIBRARY
         pangocairo libpangocairo pangocairo-1.0
     HINTS
         ${PC_PANGOCAIRO_LIBDIR}
+        ${CMAKE_PREFIX_PATH}
     PATH_SUFFIXES
-        pango
-        pango-1.0
+        lib bin pango pango-1.0
 )
 
 include(FindPackageHandleStandardArgs)

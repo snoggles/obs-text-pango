@@ -68,7 +68,7 @@ set(text-pango_SOURCES
 	text-pango.h
 	text-utilities.h)
 
-set(win32_static_LIBRARIES
+set(win32_static_LIBRARIES_NAMES
 	intl
 	fribidi
 	pixman-1
@@ -77,8 +77,27 @@ set(win32_static_LIBRARIES
 	png16
 	expat
 	usp10)
+
 if(WIN32)
-	set(PLATFORM_LIBRARIES ${win32_static_LIBRARIES})
+	foreach(lib_name ${win32_static_LIBRARIES_NAMES})
+		# Skip resolving usp10 as it's a system library
+		if(lib_name STREQUAL "usp10")
+			list(APPEND PLATFORM_LIBRARIES ${lib_name})
+			continue()
+		endif()
+
+		find_library(LIB_PATH_${lib_name}
+			NAMES ${lib_name} lib${lib_name}
+			HINTS ${CMAKE_PREFIX_PATH}
+			PATH_SUFFIXES lib bin
+		)
+		if(LIB_PATH_${lib_name})
+			list(APPEND PLATFORM_LIBRARIES ${LIB_PATH_${lib_name}})
+		else()
+			message(WARNING "Could not find library ${lib_name}, falling back to bare name")
+			list(APPEND PLATFORM_LIBRARIES ${lib_name})
+		endif()
+	endforeach()
 endif()
 
 add_library(text-pango MODULE

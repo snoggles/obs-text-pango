@@ -39,7 +39,7 @@ find_path(HARFBUZZ_INCLUDE_DIRS NAMES hb.h
     PATH_SUFFIXES harfbuzz
 )
 
-find_library(HARFBUZZ_LIBRARIES NAMES harfbuzz
+find_library(HARFBUZZ_LIBRARIES NAMES harfbuzz libharfbuzz
     HINTS ${PC_HARFBUZZ_LIBRARY_DIRS} ${PC_HARFBUZZ_LIBDIR}
 )
 

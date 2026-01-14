@@ -15,17 +15,43 @@
 
 find_package(PkgConfig)
 pkg_check_modules(PC_FONTCONFIG fontconfig QUIET)
-if(PC_FONTCONFIG_FOUND)
-	find_package_handle_standard_args(Fontconfig DEFAULT_MSG
-		PC_FONTCONFIG_INCLUDE_DIRS PC_FONTCONFIG_LIBRARIES
-	)
 
-	mark_as_advanced(PC_FONTCONFIG_FOUND)
-	set(FONTCONFIG_INCLUDE_DIRS ${PC_FONTCONFIG_INCLUDE_DIRS})
-	set(FONTCONFIG_LIBRARIES ${PC_FONTCONFIG_LIBRARIES})
-	set(FONTCONFIG_LIBRARY_DIRS ${PC_FONTCONFIG_LIBRARY_DIRS})
-	return()
-endif()
+FIND_PATH(FONTCONFIG_INCLUDE_DIR
+    NAMES
+        "fontconfig/fontconfig.h"
+    HINTS
+        ${PC_FONTCONFIG_INCLUDEDIR}
+        ${PC_FONTCONFIG_INCLUDE_DIRS}
+    PATH_SUFFIXES
+        include
+)
+
+set(FONTCONFIG_RESOLVED_LIBRARIES "")
+foreach(lib ${PC_FONTCONFIG_LIBRARIES})
+    find_library(LIB_PATH_FC_${lib}
+        NAMES ${lib} lib${lib}
+        HINTS ${PC_FONTCONFIG_LIBDIR} ${PC_FONTCONFIG_LIBRARY_DIRS} ${CMAKE_PREFIX_PATH}
+        PATH_SUFFIXES lib bin
+    )
+    if(LIB_PATH_FC_${lib})
+        list(APPEND FONTCONFIG_RESOLVED_LIBRARIES ${LIB_PATH_FC_${lib}})
+    else()
+        list(APPEND FONTCONFIG_RESOLVED_LIBRARIES ${lib})
+    endif()
+endforeach()
+
+set(FONTCONFIG_LIBRARIES ${FONTCONFIG_RESOLVED_LIBRARIES})
+set(FONTCONFIG_INCLUDE_DIRS ${FONTCONFIG_INCLUDE_DIR} ${PC_FONTCONFIG_INCLUDE_DIRS})
+
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(Fontconfig DEFAULT_MSG
+    FONTCONFIG_INCLUDE_DIR FONTCONFIG_LIBRARIES
+)
+
+mark_as_advanced(FONTCONFIG_INCLUDE_DIR FONTCONFIG_LIBRARIES)
+
+return()
+
 
 SET(_FONTCONFIG_ROOT_HINTS
     $ENV{FONTCONFIG}
