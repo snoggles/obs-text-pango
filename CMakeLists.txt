@@ -51,8 +51,8 @@ include_directories(
 	${PANGOFT2_INCLUDE_DIRS}
 	${FONTCONFIG_INCLUDE_DIRS}
 	${FREETYPE_INCLUDE_DIRS})
-if(NOT WIN32)
-	FIND_PACKAGE(PkgConfig)
+FIND_PACKAGE(PkgConfig)
+if(PKG_CONFIG_FOUND)
 	PKG_CHECK_MODULES(GLIB glib-2.0 REQUIRED)
 	include_directories(${GLIB_INCLUDE_DIRS})
 endif()
@@ -70,11 +70,11 @@ set(text-pango_SOURCES
 
 set(win32_static_LIBRARIES
 	intl
-	mini-fribidi
-	pixman-1_static
-	zlib
+	fribidi
+	pixman-1
+	z
 	harfbuzz
-	libpng16_static
+	png16
 	expat
 	usp10)
 if(WIN32)
