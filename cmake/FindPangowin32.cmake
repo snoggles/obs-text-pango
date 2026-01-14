@@ -14,6 +14,7 @@ find_path(PANGOWIN32_INCLUDE_DIR
 
 find_library(PANGOWIN32_LIBRARY
     NAMES
+        pangowin32-1.0.dll libpangowin32-1.0.dll pangowin32.dll libpangowin32.dll
         pangowin32 libpangowin32 pangowin32-1.0
     HINTS
         ${PC_PANGOWIN32_LIBDIR}

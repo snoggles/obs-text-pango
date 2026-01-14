@@ -12,7 +12,7 @@ find_path(PANGO_INCLUDE_DIR
 set(PANGO_RESOLVED_LIBRARIES "")
 foreach(lib ${PC_PANGO_LIBRARIES})
     find_library(LIB_PATH_${lib}
-        NAMES ${lib} lib${lib}
+        NAMES ${lib}.dll lib${lib}.dll ${lib} lib${lib}
         HINTS ${PC_PANGO_LIBDIR} ${PC_PANGO_LIBRARY_DIRS} ${CMAKE_PREFIX_PATH}
         PATH_SUFFIXES lib bin
     )
@@ -28,7 +28,7 @@ foreach(mod glib-2.0 gobject-2.0 gmodule-2.0)
     pkg_check_modules(PC_${mod} QUIET ${mod})
     foreach(lib ${PC_${mod}_LIBRARIES})
         find_library(LIB_PATH_${lib}
-            NAMES ${lib} lib${lib}
+            NAMES ${lib}.dll lib${lib}.dll ${lib} lib${lib}
             HINTS ${PC_${mod}_LIBDIR} ${PC_${mod}_LIBRARY_DIRS} ${CMAKE_PREFIX_PATH}
             PATH_SUFFIXES lib bin
         )

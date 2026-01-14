@@ -11,6 +11,7 @@ FIND_PATH(PANGOFT2_INCLUDE_DIR
 
 FIND_LIBRARY(PANGOFT2_LIBRARY
     NAMES
+        pangoft2-1.0.dll libpangoft2-1.0.dll pangoft2.dll libpangoft2.dll
         pangoft2 libpangoft2 pangoft2-1.0
     HINTS
         ${PC_PANGOFT2_LIBDIR}

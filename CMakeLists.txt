@@ -87,7 +87,7 @@ if(WIN32)
 		endif()
 
 		find_library(LIB_PATH_${lib_name}
-			NAMES ${lib_name} lib${lib_name}
+			NAMES ${lib_name}.dll lib${lib_name}.dll ${lib_name} lib${lib_name}
 			HINTS ${CMAKE_PREFIX_PATH}
 			PATH_SUFFIXES lib bin
 		)

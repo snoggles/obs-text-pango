@@ -39,8 +39,9 @@ find_path(HARFBUZZ_INCLUDE_DIRS NAMES hb.h
     PATH_SUFFIXES harfbuzz
 )
 
-find_library(HARFBUZZ_LIBRARIES NAMES harfbuzz libharfbuzz
-    HINTS ${PC_HARFBUZZ_LIBRARY_DIRS} ${PC_HARFBUZZ_LIBDIR}
+find_library(HARFBUZZ_LIBRARIES NAMES harfbuzz.dll libharfbuzz.dll harfbuzz libharfbuzz
+    HINTS ${PC_HARFBUZZ_LIBRARY_DIRS} ${PC_HARFBUZZ_LIBDIR} ${CMAKE_PREFIX_PATH}
+    PATH_SUFFIXES lib bin
 )
 
 # HarfBuzz 0.9.18 split ICU support into a separate harfbuzz-icu library.
@@ -51,8 +52,9 @@ if ("${PC_HARFBUZZ_VERSION}" VERSION_GREATER "0.9.17")
         set(_HARFBUZZ_REQUIRED "")
     endif ()
     pkg_check_modules(PC_HARFBUZZ_ICU harfbuzz-icu>=0.9.18 ${_HARFBUZZ_REQUIRED})
-    find_library(HARFBUZZ_ICU_LIBRARIES NAMES harfbuzz-icu
-        HINTS ${PC_HARFBUZZ_ICU_LIBRARY_DIRS} ${PC_HARFBUZZ_ICU_LIBDIR}
+    find_library(HARFBUZZ_ICU_LIBRARIES NAMES harfbuzz-icu.dll libharfbuzz-icu.dll harfbuzz-icu libharfbuzz-icu
+        HINTS ${PC_HARFBUZZ_ICU_LIBRARY_DIRS} ${PC_HARFBUZZ_ICU_LIBDIR} ${CMAKE_PREFIX_PATH}
+        PATH_SUFFIXES lib bin
     )
     if (HARFBUZZ_ICU_LIBRARIES)
         list(APPEND HARFBUZZ_LIBRARIES "${HARFBUZZ_ICU_LIBRARIES}")
